@@ -19,8 +19,9 @@ public class CommentService {
   @Autowired
   private ArticleRepository articleRepository;  // FK 때문에라도 ArticleRepository의 DI가 필요하다
 
-  public List<CommentDto> getComments(Long article_id) {
-    // 댓글 조회
+  // 댓글 조회
+  public List<CommentDto> check(Long article_id) {
+    
     List<Comment> comments = commentRepository.findByArticleId(article_id);
     List<CommentDto> dtos = new ArrayList<>();
     
@@ -31,7 +32,7 @@ public class CommentService {
     }
 
     
-    return null; 
+    return dtos; 
   }
 
 

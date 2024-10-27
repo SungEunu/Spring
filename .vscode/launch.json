@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-UseMustacheApplication<use_mustache>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.use_mustache.UseMustacheApplication",
+            "projectName": "use_mustache",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

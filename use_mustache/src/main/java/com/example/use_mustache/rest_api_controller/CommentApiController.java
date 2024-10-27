@@ -13,7 +13,7 @@ import com.example.use_mustache.dto.CommentDto;
 import com.example.use_mustache.service.CommentService;
 
 @RestController
-public class RestApiController {
+public class CommentApiController {
   @Autowired
   private CommentService commentService;
 
@@ -25,7 +25,7 @@ public class RestApiController {
      * 결과 응답
      */
     
-    List<CommentDto> listComments = commentService.getComments(id);
+    List<CommentDto> listComments = commentService.check(id);
     
     return ResponseEntity.status(HttpStatus.OK).body(listComments);
   }
