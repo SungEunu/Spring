@@ -22,7 +22,7 @@ public class CommentService {
   public List<CommentDto> getComments(Long article_id) {
     // 댓글 조회
     List<Comment> comments = commentRepository.findByArticleId(article_id);
-    List<CommentDto> dtos = new ArrayList<CommentDto>();
+    List<CommentDto> dtos = new ArrayList<>();
     
     for(int i = 0; i < comments.size(); i++){
       Comment c = comments.get(i);  //comments(Comment List)로부터 하나씩 빼서 Comment로 만듦
