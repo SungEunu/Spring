@@ -1,13 +1,12 @@
 package com.example.use_mustache.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.use_mustache.dto.CommentDto;
-import com.example.use_mustache.entity.Comment;
 import com.example.use_mustache.repository.ArticleRepository;
 import com.example.use_mustache.repository.CommentRepository;
 
@@ -22,17 +21,20 @@ public class CommentService {
   // 댓글 조회
   public List<CommentDto> check(Long article_id) {
     
-    List<Comment> comments = commentRepository.findByArticleId(article_id);
-    List<CommentDto> dtos = new ArrayList<>();
+    // List<Comment> comments = commentRepository.findByArticleId(article_id);
+    // List<CommentDto> dtos = new ArrayList<>();
     
-    for(int i = 0; i < comments.size(); i++){
-      Comment c = comments.get(i);  //comments(Comment List)로부터 하나씩 빼서 Comment로 만듦
-      CommentDto dto = CommentDto.createCommentDto(c);
-      dtos.add(dto);
-    }
+    // for(int i = 0; i < comments.size(); i++){
+    //   Comment c = comments.get(i);  //comments(Comment List)로부터 하나씩 빼서 Comment로 만듦
+    //   CommentDto dto = CommentDto.createCommentDto(c);
+    //   dtos.add(dto);
+    // }
 
     
-    return dtos; 
+    return commentRepository.findByArticleId(article_id)
+            .stream()
+            .map(comment -> CommentDto.createCommentDto(comment))
+            .collect(Collectors.toList()); 
   }
 
 
