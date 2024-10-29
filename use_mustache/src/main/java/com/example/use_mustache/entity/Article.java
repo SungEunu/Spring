@@ -28,9 +28,5 @@ public class Article {
             this.content = article.content;
         }
     }
-    public Long getNickname() {
-      // TODO Auto-generated method stub
-      throw new UnsupportedOperationException("Unimplemented method 'getNickname'");
-    }
 
 }
