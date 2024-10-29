@@ -32,9 +32,9 @@ public class CommentService {
 
     
     return commentRepository.findByArticleId(article_id)
-            .stream()
-            .map(comment -> CommentDto.createCommentDto(comment))
-            .collect(Collectors.toList()); 
+    .stream()
+    .map(comment -> CommentDto.createCommentDto(comment))
+    .collect(Collectors.toList()); 
   }
 
 
