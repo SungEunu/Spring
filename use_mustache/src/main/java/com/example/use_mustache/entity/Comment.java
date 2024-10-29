@@ -1,5 +1,7 @@
 package com.example.use_mustache.entity;
 
+import com.example.use_mustache.dto.CommentDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,4 +36,21 @@ public class Comment {
   
   @Column
   private String body;
+
+  public static Comment createComment(CommentDto dto, Article article) {
+    if(dto.getId() != null){
+      throw new IllegalArgumentException("댓글 생성 실패! 댓글의 id 오류가 발생");
+    }
+    if(dto.getArticle_id() != article.getId()){
+      throw new IllegalArgumentException("댓글 생성 실패! 게시글의 id 오류");
+    }
+    
+    return new Comment(
+      dto.getId(),
+      article,
+      dto.getNickname(),
+      dto.getBody()
+    );
+  }
+
 }
