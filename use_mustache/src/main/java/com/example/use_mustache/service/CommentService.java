@@ -13,7 +13,10 @@ import com.example.use_mustache.entity.Comment;
 import com.example.use_mustache.repository.ArticleRepository;
 import com.example.use_mustache.repository.CommentRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class CommentService {
   @Autowired
   private CommentRepository commentRepository;
@@ -51,9 +54,48 @@ public class CommentService {
     
     // 댓글 엔티티를 DB에 저장
     Comment created = commentRepository.save(comment);
+    log.info(created.toString()); //완성 확인
     
     // DTO로 반환해 변환
     return CommentDto.createCommentDto(created);
+  }
+
+  @Transactional
+  public CommentDto update(Long id, CommentDto dto) {
+    // 조회 및 예외 발생
+    Comment  searchComment= commentRepository.findById(id)
+                                       .orElseThrow(()-> new IllegalArgumentException("댓글 update 실패"));
+    // 댓글 수정
+    searchComment.patch(dto);
+
+    // 댓글 DB에 덮어쓰기
+    Comment updated = commentRepository.save(searchComment);
+    
+    // DTO로 반환해 변환
+    return CommentDto.createCommentDto(updated);
+  }
+
+  @Transactional
+  public CommentDto delete(Long id) {
+    Comment searchComment = commentRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("댓글 삭제 실패 - id 오류"));
+    if(searchComment == null){
+      return null;
+    }
+    commentRepository.delete(searchComment);
+    return CommentDto.createCommentDto(searchComment);
+  }
+
+  @Transactional
+  public List<CommentDto> delete2(Long articleId) {
+    List<Comment> searchComment = commentRepository.findByArticleId(articleId);
+    if(searchComment.isEmpty()){
+      throw new IllegalArgumentException("댓글 삭제 실패 - article_id 오류");
+    }
+    
+    searchComment.forEach(value -> commentRepository.delete(value));
+
+    return searchComment.stream().map(CommentDto::createCommentDto).collect(Collectors.toList());
+
   } 
 
 

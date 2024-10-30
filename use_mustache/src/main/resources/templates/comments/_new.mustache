@@ -1,0 +1,47 @@
+<div class="card m-2" id="comments-new">
+  <div class="card-body">
+    <form>
+      <div class="mb-3">
+        <label class="form-label" >Nickname</label>
+        <input type="text" class="form-control" id="new-comment-nickname">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Body</label>
+        <textarea type="text" class="form-control" rows="3" id="new-comment-body"></textarea>
+      </div>
+      {{#article}}
+        <input type="hidden" id="new-comment-article_id" value="{{id}}">
+        <!-- 여기서 id는 현재 article의 id를 의미, 즉, comments의 article_id를 의미하는 것과 동일 -->
+      {{/article}}
+
+      <button type="button" class="btn btn-primary" id="comment-create-btn">댓글 작성</button>
+    </form>
+  </div>
+</div>
+
+<script>
+{
+  const commentCreateBtn = document.querySelector("#comment-create-btn");
+  commentCreateBtn.addEventListener("click", function(){
+    const comment = {
+      nickname : document.querySelector('#new-comment-nickname').value,
+      body : document.querySelector('#new-comment-body').value,
+      articleId : document.querySelector('#new-comment-article_id').value
+    };
+
+    console.log(comment);
+
+    // 비동기 API fetch
+    const url = "/api/articles/" + comment.articleId + "/comments";
+    console.log(url);
+    fetch(url, {
+      method:"POST",
+      headers:{
+        "Content-Type" : "application/json"
+      },
+      body :JSON.stringify(comment)
+    })
+    
+  });
+}
+</script>

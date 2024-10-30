@@ -1,6 +1,7 @@
 package com.example.use_mustache.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class ArticleService {
     
     Article updateArticle = articleRepository.findById(id).orElse(null);
     
-    if(updateArticle == null || id != article.getId()){
+    if(updateArticle == null || !Objects.equals(id, article.getId())){
       log.info("잘못된 요청!");
       return null;
     }

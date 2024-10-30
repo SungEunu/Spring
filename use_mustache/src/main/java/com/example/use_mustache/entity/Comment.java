@@ -1,5 +1,7 @@
 package com.example.use_mustache.entity;
 
+import java.util.Objects;
+
 import com.example.use_mustache.dto.CommentDto;
 
 import jakarta.persistence.Column;
@@ -41,7 +43,7 @@ public class Comment {
     if(dto.getId() != null){
       throw new IllegalArgumentException("댓글 생성 실패! 댓글의 id 오류가 발생");
     }
-    if(dto.getArticle_id() != article.getId()){
+    if(!Objects.equals(dto.getArticle_id(), article.getId())){
       throw new IllegalArgumentException("댓글 생성 실패! 게시글의 id 오류");
     }
     
@@ -53,4 +55,38 @@ public class Comment {
     );
   }
 
+  // // 댓글 수정 부분. 만약 부분만 고친다면 나머지는 남기는 방향으로 가야함
+  // // 현재는 article_id와 id는 바꾸지 못한다는 가정이 있는 상태
+  // public void patch(CommentDto dto) {
+  //   if(!Objects.equals(this.id, dto.getId())){
+  //     throw new IllegalArgumentException("댓글 수정 실패");
+  //   } 
+  //   if(dto.getNickname() != null){
+  //     this.nickname = dto.getNickname();
+  //   }
+  //   if(dto.getBody()!= null){
+  //     this.body = dto.getBody();
+  //   }
+  
+  // }
+
+
+  
+  // 댓글 수정 부분. 만약 부분만 고친다면 나머지는 남기는 방향으로 가야함
+  // 현재는 article_id와 id는 바꾸지 못한다는 가정이 있는 상태
+  public void patch(CommentDto dto) {
+    if(!Objects.equals(dto.getArticle_id(), this.article.getId())){
+      throw new IllegalArgumentException("댓글 수정 실패 - article id 변환 불가");
+    }
+    if(!Objects.equals(this.id, dto.getId())){
+      throw new IllegalArgumentException("댓글 수정 실패 - 고유 id 반환 불가");
+    } 
+    if(dto.getNickname() != null){
+      this.nickname = dto.getNickname();
+    }
+    if(dto.getBody()!= null){
+      this.body = dto.getBody();
+    }
+  
+  }
 }

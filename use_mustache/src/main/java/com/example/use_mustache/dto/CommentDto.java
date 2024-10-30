@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class CommentDto {
   private Long id;
-  private Long article_id;
+  private Long article_id;  // 만약 Entity와 다르게 받는다면 JsonProperty를 통해 만들면 된다.
   private String nickname;
   private String body;
   
