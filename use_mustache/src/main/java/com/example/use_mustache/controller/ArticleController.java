@@ -56,6 +56,7 @@ public class ArticleController {
         // 1. id를 조회해 데이터 가져오기
         Article articleEntity = articleRepository.findById(id).orElse(null);
         List<CommentDto> commentDtos = commentService.check(id);
+        log.info(commentDtos.toString());
         
         // 2. 모델에 데이터 등록하기
         model.addAttribute("article", articleEntity);

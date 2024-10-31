@@ -15,14 +15,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Getter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
-
-// Comment도 Article과 동일하게 작동을 하기는 한다. 하지만 Comment와 Article의 DB가 연동되어야 하기 때문에 DB 구조를 담당하는 Entity에서 Article을 참조해주는 것이다.
+@NoArgsConstructor // Comment도 Article과 동일하게 작동을 하기는 한다. 하지만 Comment와 Article의 DB가 연동되어야 하기 때문에 DB 구조를 담당하는 Entity에서 Article을 참조해주는 것이다.
+@Slf4j
 public class Comment {
 
   @Id // 대표키 지정
@@ -40,10 +40,12 @@ public class Comment {
   private String body;
 
   public static Comment createComment(CommentDto dto, Article article) {
+    log.info(dto.getArticle_id().toString());
+    log.info(article.getId().toString());
     if(dto.getId() != null){
       throw new IllegalArgumentException("댓글 생성 실패! 댓글의 id 오류가 발생");
     }
-    if(!Objects.equals(dto.getArticle_id(), article.getId())){
+    if (dto.getArticle_id() != article.getId()) {
       throw new IllegalArgumentException("댓글 생성 실패! 게시글의 id 오류");
     }
     
